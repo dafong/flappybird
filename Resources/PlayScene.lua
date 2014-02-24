@@ -17,6 +17,8 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self:addBird()
         self:addTouchLayer()
         self.isBegin = false
+        self:addEdgeBox()
+        self:addLandBox()
     end,
 
     addBg = function(self)
@@ -51,8 +53,8 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         end))
         land2:runAction(cc.RepeatForever:create(seq2))
         self.rootNode:addChild(bg)
-        self.rootNode:addChild(land2)
-        self.rootNode:addChild(land1)
+        self.rootNode:addChild(land2,1)
+        self.rootNode:addChild(land1,1)
     end,
 
     addBird = function(self)
@@ -64,25 +66,30 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
 
 
         self.bird = cc.Sprite:createWithSpriteFrameName("bird1_0")
-        self.bird:setAnchorPoint(ccp(0.5,1))
-        self.bird:setPosition(ccp(self._winsize.width/2 - 55,self._winsize.height-250))
+        self.bird:setAnchorPoint(ccp(0.5,0.5))
+        self.bird:setPosition(ccp(self._winsize.width/2 - 55,self._winsize.height-265))
         self.bird:runAction(cc.RepeatForever:create( cc.Animate:create(animation)))
+
 
         local up  = cc.MoveBy:create(0.4,ccp(0,10))
         local down= cc.MoveBy:create(0.4,ccp(0,-10))
         local seq = cc.Sequence:create(up,down)
+        local repeate = cc.RepeatForever:create(seq)
+        repeate:setTag(2)
+        self.bird:runAction(repeate)
 
-        self.bird:runAction( cc.RepeatForever:create(seq))
-
-
-        self.rootNode:addChild(self.bird)
+        local body = cc.PhysicsBody:createCircle(self.bird:getContentSize().width / 2-10)
+        self.bird:setPhysicsBody(body)
+        body:setEnable(false)
+        body:setAngularVelocityLimit(0.36)
+        self.rootNode:addChild(self.bird,3)
     end,
 
     addScore = function(self)
         self.score = cc.Sprite:createWithSpriteFrameName("font_048")
         self.score:setAnchorPoint(ccp(0.5,1))
         self.score:setPosition(ccp(self._winsize.width/2,self._winsize.height - 80))
-        self.rootNode:addChild( self.score)
+        self.rootNode:addChild( self.score,2)
     end,
 
     addTip  = function(self)
@@ -105,15 +112,19 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self.control:setTouchEnabled(true)
         self.control:registerScriptTouchHandler(function(type,x,y)
             if type == "began" then
-                U:debug("began")
                 if not self.isBegin then
                     self:startGame()
                 end
-
+                self:appForceToBird()
             end
         end)
         self.rootNode:addChild(self.control)
+    end,
 
+    appForceToBird = function(self)
+        local body = self.bird:getPhysicsBody()
+        body:setVelocity(ccp(0,10))
+        body:applyForce(cc.p(0,100),body:getPosition())
     end,
 
     startGame = function(self)
@@ -121,42 +132,78 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self.tip:runAction(cc.FadeOut:create(0.4))
         self.tutorial:runAction(cc.FadeOut:create(0.4))
 
-        local pipe_down = cc.Sprite:createWithSpriteFrameName("pipe_down")
-        local size = pipe_down:getContentSize()
-        pipe_down:setScaleY(0.6)
-        pipe_down:setAnchorPoint(ccp(0,1))
-        pipe_down:setPosition(ccp(self._winsize.width,self._winsize.height))
+        self:startPipe()
 
-        self.rootNode:addChild(pipe_down)
-
-        local movedown = cc.MoveBy:create(3,ccp(-320-size.width,0))
-        local seqdown = cc.Sequence:create(movedown,cc.CallFunc:create(function()
-            pipe_down:setPosition(ccp(self._winsize.width,self._winsize.height))
-        end))
-        pipe_down:runAction(cc.RepeatForever:create(seqdown))
-
-
-
-
-        local pipe_up   = cc.Sprite:createWithSpriteFrameName("pipe_up")
-        pipe_up:setAnchorPoint(ccp(0,0))
-        pipe_up:setPosition(ccp(self._winsize.width,128))
-        pipe_up:setScaleY(0.6)
-        self.rootNode:addChild(pipe_up)
-
-
-        local moveup = cc.MoveBy:create(3,ccp(-320-size.width,0))
-        local sequp = cc.Sequence:create(moveup,cc.CallFunc:create(function()
-            pipe_up:setPosition(ccp(self._winsize.width,128))
-        end))
-        pipe_up:runAction(cc.RepeatForever:create(sequp))
-
-
-
-
-
+        self.bird:stopActionByTag(2)
+        self.bird:getPhysicsBody():setEnable(true)
 
 
     end,
+
+
+    addEdgeBox = function(self)
+        local node = cc.Node:create()
+        node:setPosition(ccp(self._winsize.width/2,self._winsize.height/2))
+        local body = cc.PhysicsBody:createEdgeBox(self._winsize)
+        node:setPhysicsBody(body)
+        self.rootNode:addChild(node)
+    end,
+
+
+    addLandBox = function(self)
+        local node = cc.Node:create()
+        node:setPosition(cc.p(self._winsize.width/2,128/2))
+        local body = cc.PhysicsBody:createEdgeBox(CCSize(320,128))
+        node:setPhysicsBody(body)
+        self.rootNode:addChild(node)
+    end,
+
+
+    getRootNode = function(self)
+        if not self.rootNode then
+            self.rootNode = cc.Node:create()
+            self.rootNode:setContentSize(self._winsize)
+        end
+        return self.rootNode
+    end,
+
+    startPipe = function(self)
+        self.intervalId = U:setInterval(function()
+            local height = self._winsize.height - 128 - 200
+
+            local upheight = math.random(70,height-70)
+
+            local downheight= height - upheight;
+
+
+            local pipe_down = cc.Sprite:createWithSpriteFrameName("pipe_down")
+            local pipeSize  = pipe_down:getContentSize()
+
+            pipe_down:setAnchorPoint(ccp(0,0))
+            pipe_down:setPosition(ccp(self._winsize.width,self._winsize.height-downheight))
+            self.rootNode:addChild(pipe_down)
+
+            local movedown = cc.MoveBy:create(4,ccp(-448,0))
+            local seqdown = cc.Sequence:create(movedown,cc.CallFunc:create(function()
+                pipe_down:removeFromParentAndCleanup(true)
+            end))
+            pipe_down:runAction(seqdown)
+
+            local pipe_up   = cc.Sprite:createWithSpriteFrameName("pipe_up")
+            pipe_up:setAnchorPoint(ccp(0,1))
+            pipe_up:setPosition(ccp(self._winsize.width,self._winsize.height-downheight-200))
+            self.rootNode:addChild(pipe_up)
+
+
+            local moveup = cc.MoveBy:create(4,ccp(-448,0))
+            local sequp = cc.Sequence:create(moveup,cc.CallFunc:create(function()
+                pipe_up:removeFromParentAndCleanup(true)
+            end))
+            pipe_up:runAction(sequp)
+        end,1.5)
+    end
+
+
+
 
 })

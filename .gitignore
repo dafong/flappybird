@@ -91,10 +91,10 @@ tools/tojs/userconf.ini
 # ... userconf.ini generated if running from tools/jenkins_scripts/mac/android/
 tools/jenkins_scripts/mac/android/userconf.ini
 
-Resources/Images/
 .idea
 ccbResources
 proj.tp/output
 proj.tp/temp
 proj.tp/cfg.properties
 tools/Sites
+cocos2d

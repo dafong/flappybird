@@ -152,7 +152,10 @@ Soso.system.SceneController = {
     load = function(self)
         self:_initRouteTable()
         self:registerEngineEventLisener()
-        local scene1 = cc.Scene:create()
+        local scene1 = cc.Scene:createWithPhysics()
+        U:debug(DEBUGDRAW_ALL)
+        U:debug(cc.PhysicsWorldDEBUGDRAW_ALL)
+        scene1:getPhysicsWorld():setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL);
         scene1:registerScriptHandler(function(eventType)
            if eventType == "enter" then
                self:switchTo(self.__indexScene,{__indexScene = true})
