@@ -79,7 +79,7 @@ U.isXYInUIRect = function(self, x, y, ui)
         n = ui.rootNode
     end
     rect = n:boundingBox()
-    p = n:getParent():convertToNodeSpace(ccp(x, y))
+    p = n:getParent():convertToNodeSpace(cc.p(x, y))
     return rect:containsPoint(p)
 end
 
@@ -90,7 +90,7 @@ U.isXInUIRect = function(self,x,ui)
         n = ui.rootNode
     end
     rect = n:boundingBox()
-    p = n:convertToNodeSpace(ccp(x, 0))
+    p = n:convertToNodeSpace(cc.p(x, 0))
     p.y = rect:getMinY()
     return rect:containsPoint(p)
 end
@@ -101,7 +101,7 @@ U.isYInUIRect = function(self,y,ui)
         n = ui.rootNode
     end
     rect = n:boundingBox()
-    p = n:convertToNodeSpace(ccp(0, y))
+    p = n:convertToNodeSpace(cc.p(0, y))
     p.x = rect:getMinX()
     return rect:containsPoint(p)
 end
@@ -114,21 +114,21 @@ end
 U.setTimeout = function(self, func, secs)
     if not secs then secs = 0 end
     local id
-    id = CCDirector:sharedDirector():getScheduler():scheduleScriptFunc(function()
-        CCDirector:sharedDirector():getScheduler():unscheduleScriptEntry(id)
+    id = CCDirector:getInstance():getScheduler():scheduleScriptFunc(function()
+        CCDirector:getInstance():getScheduler():unscheduleScriptEntry(id)
         func()
     end, secs, false)
 end
 
 U.setInterval = function(self,func, secs)
-    return CCDirector:sharedDirector():getScheduler():scheduleScriptFunc(function()
+    return CCDirector:getInstance():getScheduler():scheduleScriptFunc(function()
         func()
     end, secs, false)
 end
 
 U.clearInterval = function(self,id)
     if id then
-        CCDirector:sharedDirector():getScheduler():unscheduleScriptEntry(id)
+        CCDirector:getInstance():getScheduler():unscheduleScriptEntry(id)
     end
 end
 

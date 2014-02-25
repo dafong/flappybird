@@ -36,7 +36,7 @@ local function main()
     require "ui.Button"
     require "IndexScene"
     require "PlayScene"
-    cc.SpriteFrameCache:getInstance():addSpriteFramesWithFile("atlas.plist")
+    cc.SpriteFrameCache:getInstance():addSpriteFrames("atlas.plist")
     Soso.App:load()
 end
 

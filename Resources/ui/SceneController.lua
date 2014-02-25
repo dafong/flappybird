@@ -130,8 +130,8 @@ Soso.system.SceneController = {
         ---TODO create the in scene instance
         local inScene =  self:_createScene(inSceneName,params)
         local sceneNode = inScene.rootNode
-        sceneNode:setAnchorPoint(ccp(0,0))
-        sceneNode:setPosition(ccp(self.visibleOrigin.x,self.visibleOrigin.y))
+        sceneNode:setAnchorPoint(cc.p(0,0))
+        sceneNode:setPosition(cc.p(self.visibleOrigin.x,self.visibleOrigin.y))
         scene:addChild(sceneNode)
     end,
 
@@ -153,9 +153,10 @@ Soso.system.SceneController = {
         self:_initRouteTable()
         self:registerEngineEventLisener()
         local scene1 = cc.Scene:createWithPhysics()
-        U:debug(DEBUGDRAW_ALL)
-        U:debug(cc.PhysicsWorldDEBUGDRAW_ALL)
-        scene1:getPhysicsWorld():setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL);
+        --U:debug(DEBUGDRAW_ALL)
+        --U:debug(cc.PhysicsWorldDEBUGDRAW_ALL)
+       -- scene1:getPhysicsWorld():setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL);
+        scene1:getPhysicsWorld():setGravity(cc.p(0,-800))
         scene1:registerScriptHandler(function(eventType)
            if eventType == "enter" then
                self:switchTo(self.__indexScene,{__indexScene = true})
