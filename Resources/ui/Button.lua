@@ -14,9 +14,7 @@ Soso.ui.Button = Soso.ui.UIComponent:extend({
         self.rootNode:loadTextures(self._options.bg[1],self._options.bg[2],self._options.bg[3],1)
         self.rootNode:setTouchEnabled(true)
         self.rootNode:setTitleText(self._options.title)
-        self.rootNode:setTitleColor(self._options.fontColor)
-        self.rootNode:setTitleFontSize(self._options.fontSize)
-        self.rootNode:setSize(self._options.preferredSize)
+
     end,
 
     _createRootNode = function(self)

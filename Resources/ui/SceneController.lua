@@ -15,7 +15,7 @@ Soso.system = Soso.system or {}
 Soso.system.SceneController = {
 
 	--首页
-    __indexScene       = "play",
+    __indexScene       = "index",
 
     --当前页
     __currentScene     = "",
@@ -109,18 +109,16 @@ Soso.system.SceneController = {
     switchTo = function(self,inSceneName,params)
             if self.inchanging then return end
             params = params or {}
-            if inSceneName ~= self.__currentScene or params.refresh == 1 then
-                U:fdebug("Soso.App" , "BEGIN TO","----------------"..inSceneName.."----------------")
-                self.inchanging = true
-                self:clearInChangeFlagWhenTimeout(5)
-                self:clearInSwitchScene(inSceneName)
-                self:switchScene(params,function(scene)
-                    self:initializeScene(inSceneName,params,scene)
-                    self:stopTimeoutFunc()
-                    self.inchanging = false
-                    U:fdebug("Soso.App" , "END TO","----------------"..inSceneName.."----------------\n")
-                end)
-            end
+            U:fdebug("Soso.App" , "BEGIN TO","----------------"..inSceneName.."----------------")
+            self.inchanging = true
+            self:clearInChangeFlagWhenTimeout(5)
+            self:clearInSwitchScene(inSceneName)
+            self:switchScene(params,function(scene)
+                self:initializeScene(inSceneName,params,scene)
+                self:stopTimeoutFunc()
+                self.inchanging = false
+                U:fdebug("Soso.App" , "END TO","----------------"..inSceneName.."----------------\n")
+            end)
     end,
 
     initializeScene       = function(self,inSceneName,params,scene)
@@ -153,10 +151,8 @@ Soso.system.SceneController = {
         self:_initRouteTable()
         self:registerEngineEventLisener()
         local scene1 = cc.Scene:createWithPhysics()
-        --U:debug(DEBUGDRAW_ALL)
-        --U:debug(cc.PhysicsWorldDEBUGDRAW_ALL)
-       -- scene1:getPhysicsWorld():setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL);
-        scene1:getPhysicsWorld():setGravity(cc.p(0,-800))
+        --scene1:getPhysicsWorld():setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL);
+        scene1:getPhysicsWorld():setGravity(cc.p(0,-900))
         scene1:registerScriptHandler(function(eventType)
            if eventType == "enter" then
                self:switchTo(self.__indexScene,{__indexScene = true})

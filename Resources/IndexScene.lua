@@ -77,8 +77,10 @@ Soso.scenes.IndexScene = Soso.scenes.Scene:extend({
 
         local playBtn = Soso.ui.Button:new({
             bg = {"button_play"},
-            clickc = function()
-
+            click = function()
+                self.rootNode:runAction(cc.Sequence:create(cc.FadeOut:create(1),cc.CallFunc:create(function()
+                    Soso.App:switchTo("play")
+                end)))
             end
         })
         playBtn:setAnchorPoint(cc.p(0,0))
@@ -87,7 +89,7 @@ Soso.scenes.IndexScene = Soso.scenes.Scene:extend({
 
         local scoreBtn = Soso.ui.Button:new({
             bg = {"button_score"},
-            clickc = function()
+            click = function()
 
             end
         })

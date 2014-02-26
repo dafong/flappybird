@@ -27,7 +27,7 @@ local function main()
     collectgarbage("setpause", 100)
     collectgarbage("setstepmul", 5000)
 
-
+    math.randomseed (os.time())
     require "ui.Class"
     require "ui.UIComponent"
     require "ui.Utils"
