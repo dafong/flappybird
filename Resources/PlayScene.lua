@@ -5,7 +5,7 @@
 -- Time: 上午2:16
 -- To change this template use File | Settings | File Templates.
 --
-
+require "AudioEngine"
 Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
 
     initWithCode = function(self,options)
@@ -13,7 +13,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self.bgs = { "bg_day" , "bg_night" }
         self.birds = { "bird0_","bird1_","bird2_", }
         self.pipes = {}
-        self.count = 1020
+        self.count = 0
         self.isOver = false
         self:addBg()
         self:addScore()
@@ -25,6 +25,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self:addEdgeBox()
         self:addLandBox()
         self.pipewidth =  cc.Sprite:createWithSpriteFrameName("pipe_down"):getContentSize().width
+
     end,
 
     addBg = function(self)
@@ -128,9 +129,11 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
         self.control:registerScriptTouchHandler(function(type,x,y)
             if type == "began" then
                 if not self.isBegin then
+                    AudioEngine.playEffect("audio/sfx_wing.caf")
                     self:startGame()
                 end
                 if not self.isOver then
+                    AudioEngine.playEffect("audio/sfx_wing.caf")
                     self:appForceToBird()
                 end
             end
@@ -224,6 +227,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
             self.score:addChild(n)
         end
         self.score:setPosition(self._winsize.width/2,self._winsize.height-80)
+        AudioEngine.playEffect("audio/sfx_point.aif")
     end,
 
     addEdgeBox = function(self)
@@ -253,7 +257,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
 
     startPipe = function(self)
         self.intervalId = U:setInterval(function()
-            local height = self._winsize.height - 128 - 100
+            local height = self._winsize.height - 128 - 120
 
             local upheight = math.random(70,height-70)
 
@@ -278,7 +282,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
             pipe_up:setTag(1)
             self.pipes[pipe_up]={}
             pipe_up:setAnchorPoint(cc.p(0,1))
-            pipe_up:setPosition(cc.p(self._winsize.width,self._winsize.height-downheight-100))
+            pipe_up:setPosition(cc.p(self._winsize.width,self._winsize.height-downheight-120))
             self.rootNode:addChild(pipe_up)
 
             local moveup = cc.MoveBy:create(4,cc.p(-448,0))
@@ -291,6 +295,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
     end,
 
     gameOver = function(self)
+        AudioEngine.playEffect("audio/sfx_hit.caf")
         self.isOver = true
         U:clearInterval(self.intervalId)
         for p,e in pairs(self.pipes) do p:stopAllActions() end
@@ -302,6 +307,7 @@ Soso.scenes.PlayScene = Soso.scenes.Scene:extend({
     end,
 
     contactLand = function(self)
+        AudioEngine.playEffect("audio/sfx_die.caf")
         self.bird:getPhysicsBody():setEnable(false)
         self.bird:setPosition(cc.p(self._winsize.width/2-55,128 + 12))
         if not self.isOver then

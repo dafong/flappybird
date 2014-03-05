@@ -94,6 +94,7 @@
 		50D7C96C17EBBEDF005D0B91 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D7C96B17EBBEDF005D0B91 /* OpenGL.framework */; };
 		50D7C96E17EBBEE6005D0B91 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D7C96D17EBBEE6005D0B91 /* AppKit.framework */; };
 		50D7C97017EBBEEC005D0B91 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D7C96F17EBBEEC005D0B91 /* IOKit.framework */; };
+		B9671E3018C6F81100DFF7F4 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B9671E2F18C6F81100DFF7F4 /* audio */; };
 		CB1DE57818BA0B7A00EA99E8 /* main.lua in Resources */ = {isa = PBXBuildFile; fileRef = CB1DE57718BA0B7A00EA99E8 /* main.lua */; };
 		CB1DE59F18BA51E300EA99E8 /* ui in Resources */ = {isa = PBXBuildFile; fileRef = CB1DE59E18BA51E300EA99E8 /* ui */; };
 		CB1DE5A118BA5C5C00EA99E8 /* IndexScene.lua in Resources */ = {isa = PBXBuildFile; fileRef = CB1DE5A018BA5C5C00EA99E8 /* IndexScene.lua */; };
@@ -268,6 +269,7 @@
 		50D7C96B17EBBEDF005D0B91 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		50D7C96D17EBBEE6005D0B91 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		50D7C96F17EBBEEC005D0B91 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		B9671E2F18C6F81100DFF7F4 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
 		CB1DE57718BA0B7A00EA99E8 /* main.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.lua; sourceTree = "<group>"; };
 		CB1DE59E18BA51E300EA99E8 /* ui */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ui; sourceTree = "<group>"; };
 		CB1DE5A018BA5C5C00EA99E8 /* IndexScene.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IndexScene.lua; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 		F293BC4615EB859D00256477 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B9671E2F18C6F81100DFF7F4 /* audio */,
 				CB1DE5A218BA72C000EA99E8 /* PlayScene.lua */,
 				CB1DE5A018BA5C5C00EA99E8 /* IndexScene.lua */,
 				CB1DE59E18BA51E300EA99E8 /* ui */,
@@ -719,6 +722,7 @@
 				5091733B17ECE17A00D62437 /* Icon-100.png in Resources */,
 				15A8A4781834C6AD00142BE0 /* luaj.lua in Resources */,
 				15A8A47C1834C6AD00142BE0 /* Opengl.lua in Resources */,
+				B9671E3018C6F81100DFF7F4 /* audio in Resources */,
 				15A8A4741834C6AD00142BE0 /* DrawPrimitives.lua in Resources */,
 				5023811B17EBBCAC00990C9B /* Default@2x.png in Resources */,
 				15A8A4681834C6AD00142BE0 /* Cocos2d.lua in Resources */,
@@ -922,7 +926,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMPRESS_PNG_FILES = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -935,6 +939,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
+				PROVISIONING_PROFILE = "4A110C5B-A1D9-476D-9099-5331C09DA529";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../cocos2d/cocos $(SRCROOT)/../cocos2d/cocos/base $(SRCROOT)/../cocos2d/cocos/2d $(SRCROOT)/../cocos2d/cocos/physics $(SRCROOT)/../cocos2d/cocos/math/kazmath/include $(SRCROOT)/../cocos2d/cocos/2d/platform/ios $(SRCROOT)/../cocos2d/cocos/audio/include $(SRCROOT)/../cocos2d/cocos/editor-support $(SRCROOT)/../cocos2d/cocos/gui $(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk $(SRCROOT)/../cocos2d/external $(SRCROOT)/../cocos2d/cocos/scripting/lua/bindings $(SRCROOT)/../cocos2d/external/lua/luajit/include $(SRCROOT)/../cocos2d/external/lua/tolua";
@@ -945,7 +950,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMPRESS_PNG_FILES = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
@@ -957,6 +962,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "";
+				PROVISIONING_PROFILE = "4A110C5B-A1D9-476D-9099-5331C09DA529";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../cocos2d/cocos $(SRCROOT)/../cocos2d/cocos/base $(SRCROOT)/../cocos2d/cocos/2d $(SRCROOT)/../cocos2d/cocos/physics $(SRCROOT)/../cocos2d/cocos/math/kazmath/include $(SRCROOT)/../cocos2d/cocos/2d/platform/ios $(SRCROOT)/../cocos2d/cocos/audio/include $(SRCROOT)/../cocos2d/cocos/editor-support $(SRCROOT)/../cocos2d/cocos/gui $(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk $(SRCROOT)/../cocos2d/external $(SRCROOT)/../cocos2d/cocos/scripting/lua/bindings $(SRCROOT)/../cocos2d/external/lua/luajit/include $(SRCROOT)/../cocos2d/external/lua/tolua";

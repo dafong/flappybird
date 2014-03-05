@@ -22,12 +22,15 @@ function __G__TRACKBACK__(msg)
 end
 
 
+
 local function main()
     -- avoid memory leak
     collectgarbage("setpause", 100)
     collectgarbage("setstepmul", 5000)
 
     math.randomseed (os.time())
+
+
     require "ui.Class"
     require "ui.UIComponent"
     require "ui.Utils"
@@ -36,6 +39,10 @@ local function main()
     require "ui.Button"
     require "IndexScene"
     require "PlayScene"
+
+    U:debug(_G)
+    --U:debug(package)
+
     cc.SpriteFrameCache:getInstance():addSpriteFrames("atlas.plist")
     Soso.App:load()
 end
